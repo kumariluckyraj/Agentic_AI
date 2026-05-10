@@ -1,0 +1,372 @@
+Why Memory Matters
+
+Without memory:
+agents behave statelessly.
+
+With memory:
+agents become adaptive.
+
+Example
+
+Without memory:
+
+User: My preferred stack is MERN.
+Agent: forgets later.
+
+With memory:
+
+Agent remembers future preferences.
+Memory Technologies
+
+Common implementations:
+
+Vector databases
+Redis
+PostgreSQL
+Pinecone
+Weaviate
+ChromaDB
+
+E. Iterative Reasoning
+Agent may:
+
+inspect logs
+hypothesize issue
+apply fix
+rerun tests
+observe failure
+revise strategy
+fix again
+
+This iterative cycle is core to agents.
+
+
+
+
+. Important Architectures in Agentic AI
+A. ReAct Framework
+
+ReAct =
+
+Reason + Act
+
+Agent alternates between:
+
+reasoning
+tool usage
+
+Example:
+
+Thought: Need weather data
+Action: Call weather API
+Observation: Rain tomorrow
+Thought: Suggest umbrella
+
+
+
+B. Planning Agents
+
+These agents:
+
+break goals into subtasks
+prioritize execution
+manage dependencies
+
+Example:
+
+Goal:
+Build ecommerce site
+
+Plan:
+1. Setup backend
+2. Create DB
+3. Build auth
+4. Create UI
+5. Deploy
+
+
+C. Multi-Agent Systems
+
+Multiple specialized agents collaborate.
+
+Example:
+
+Agent	Role
+ResearchAgent	gathers info
+CodingAgent	writes code
+TestingAgent	validates
+DeploymentAgent	deploys
+
+This is becoming VERY important in modern AI systems.
+
+
+
+
+2. Anatomy of an Agent Prompt
+
+An agent prompt is usually much larger than a normal prompt.
+
+A. System Prompt
+Definition
+
+High-level instructions controlling overall agent behavior.
+
+It defines:
+
+personality
+rules
+objectives
+boundaries
+workflow
+
+B. Tool Prompt
+Definition
+
+Instructions specific to a tool.
+
+Example
+
+Suppose an agent has a SQL tool.
+
+Tool prompt:
+
+Generate safe SQL queries only.
+
+Never:
+- DROP tables
+- DELETE without WHERE clause
+
+Return:
+- query
+- explanation
+Another Example
+
+Browser tool prompt:
+
+When browsing:
+- summarize key information
+- avoid ads
+- extract only relevant data
+
+4. Role Prompting
+You are a cybersecurity incident response expert.
+
+5. Zero-Shot vs Few-Shot Prompting
+
+One of the MOST important prompting concepts.
+
+A. Zero-Shot Prompting
+Definition
+
+Giving a task without examples.
+
+Example
+Classify sentiment:
+"I love this product."
+
+B. Few-Shot Prompting
+Definition
+
+Providing examples before the actual task.
+
+Example
+Input: "Amazing service"
+Output: Positive
+
+Input: "Terrible experience"
+Output: Negative
+
+Input: "The food was cold"
+Output:
+
+Agents often use few-shot examples to:
+
+improve tool usage
+standardize reasoning
+reduce hallucinations
+
+
+Normal Prompt
+What is 27 × 14?
+CoT(Chain of Thought) Prompt
+Solve step-by-step:
+What is 27 × 14?
+
+Instead of:
+
+Input → Answer
+
+it becomes:
+
+Input → Reasoning → Answer
+e.g: Task:
+Fix login bug.
+
+Reasoning:
+1. Check auth middleware
+2. Inspect JWT validation
+3. Verify cookie handling
+4. Reproduce issue
+5. Apply fix
+6. Run tests
+
+
+Traditional LLM
+Generate answer → Done
+Reflective Agent
+Generate answer
+↓
+Critique answer
+↓
+Improve answer
+↓
+Re-evaluate
+
+
+
+
+
+
+2. What is Function Calling?
+
+Function calling allows an LLM to:
+Agent with Tools
+User
+↓
+LLM decides tool
+↓
+Tool executes
+↓
+Result returned
+↓
+LLM reasons again
+↓
+Final answer
+
+Definition of a Tool
+
+A tool is an external capability an AI agent can use.
+
+Examples:
+
+calculator
+web search
+database query
+terminal execution
+API calls
+file operations
+
+
+
+
+
+
+Example Schema
+{
+  "type": "object",
+  "properties": {
+    "city": {
+      "type": "string",
+      "description": "City name"
+    },
+    "unit": {
+      "type": "string",
+      "enum": ["celsius", "fahrenheit"]
+    }
+  },
+  "required": ["city"]
+}
+Meaning
+
+This schema says:
+
+input must be object
+city must be string
+unit must be one of allowed values
+
+
+Common Policies
+A. Mandatory Tool Usage
+
+Example:
+
+Always use calculator for arithmetic.
+
+Why?
+LLMs are bad at precise math.
+
+B. Restricted Tool Usage
+
+Example:
+
+Never use file deletion tools without confirmation.
+7. Why Should Tools Be Constrained?
+
+VERY important interview question.
+
+Answer
+
+Tools must be constrained because LLMs are probabilistic systems.
+
+They:
+
+hallucinate
+generate incorrect inputs
+misunderstand instructions
+optimize for plausible outputs
+
+
+Most Important Takeaway
+
+Agent intelligence is NOT just:
+
+reasoning
+
+It is:
+
+reasoning
++ safe tool usage
++ validation
++ controlled execution
+
+
+
+A. Breadth-First Search (BFS)
+Definition
+
+Explore all nearby possibilities before going deeper.
+
+Visualization
+Level 1:
+A B C
+
+Level 2:
+A1 A2 B1 B2 C1
+
+
+B. Depth-First Search (DFS)
+Definition
+
+Explore one branch deeply before trying others.
+
+Visualization
+A → A1 → A1a → A1b
+
+before exploring B.
+
+DFS Behavior
+Go deep quickly
+
+
+7. Preventing Infinite Loops
+A. Step Limits
+
+Most common solution.
+
+Example:
+
+max_steps = 20
+
+If exceeded:
+
+terminate agent
